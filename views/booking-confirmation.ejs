@@ -1,0 +1,40 @@
+<!-- EJS TEMPLATES WERE WRITTEN WITHOUT ASSISTANCE -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <title>Booking Confirmation</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Booking Confirmation</h1>
+        
+        <div class="confirmation-details">
+            <h2>Booking Successful!</h2>
+            <p><strong>Booking ID:</strong> <%= booking_id %></p>
+            <p><strong>Event:</strong> <%= event.title %></p>
+            <p><strong>Attendee:</strong> <%= attendee_name %></p>
+            <p><strong>Date:</strong> <%= new Date(event.event_date).toLocaleDateString() %></p>
+            
+            <div class="ticket-summary">
+                <h3>Tickets Booked</h3>
+                <% if (full_tickets > 0) { %>
+                    <p>Full Price Tickets: <%= full_tickets %> × $<%= event.full_price_cost %> = $<%= (full_tickets * event.full_price_cost).toFixed(2) %></p>
+                <% } %>
+                <% if (concession_tickets > 0) { %>
+                    <p>Concession Tickets: <%= concession_tickets %> × $<%= event.concession_cost %> = $<%= (concession_tickets * event.concession_cost).toFixed(2) %></p>
+                <% } %>
+                <p><strong>Total: $<%= ((full_tickets * event.full_price_cost) + (concession_tickets * event.concession_cost)).toFixed(2) %></strong></p>
+            </div>
+        </div>
+        
+        <div class="navigation">
+            <a href="/attendee" class="button primary">Back to Events</a>
+            <a href="/" class="button">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!-- EJS TEMPLATES WERE WRITTEN WITHOUT ASSISTANCE -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <title>Attendee Home - <%= settings.site_name %></title>
+</head>
+<body>
+    <div class="container">
+        <h1>Attendee Home Page</h1>
+        
+        <div class="site-info">
+            <h2><%= settings.site_name %></h2>
+            <p><%= settings.site_description %></p>
+        </div>
+        
+        <div class="events-section">
+            <h3>Available Events</h3>
+            <% if (events.length === 0) { %>
+                <p>No events available at the moment. Please check back later!</p>
+            <% } else { %>
+                <div class="events-list">
+                    <% events.forEach(event => { %>
+                        <div class="event-card clickable" onclick="window.location.href='/attendee/event/<%= event.event_id %>'">
+                            <h4><%= event.title %></h4>
+                            <p><strong>Date:</strong> <%= new Date(event.event_date).toLocaleDateString() %></p>
+                            <p class="event-description"><%= event.description %></p>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+        </div>
+        
+        <div class="navigation">
+            <a href="/" class="button">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

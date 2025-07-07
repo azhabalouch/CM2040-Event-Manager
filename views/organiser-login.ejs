@@ -1,0 +1,45 @@
+<!-- EJS TEMPLATES WERE WRITTEN WITHOUT ASSISTANCE -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <title>Organiser Login</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Organiser Login</h1>
+        
+        <div class="login-container">
+            <div class="login-form">
+                <h2>Please enter your password to access organiser features</h2>
+                
+                <% if (error) { %>
+                    <div class="error-message">
+                        <%= error %>
+                    </div>
+                <% } %>
+                
+                <form action="/organiser/login" method="post">
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required autofocus>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="button primary">Login</button>
+                        <a href="/" class="button">Back to Home</a>
+                    </div>
+                </form>
+                
+                <div class="security-info">
+                    <p><small>Your session is secure and will expire after 24 hours of inactivity.</small></p>
+                    <p><small>Multiple failed attempts will temporarily lock your account.</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

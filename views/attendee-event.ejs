@@ -1,0 +1,66 @@
+<!-- EJS TEMPLATES WERE WRITTEN WITHOUT ASSISTANCE -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <title>Book Event - <%= event.title %></title>
+</head>
+<body>
+    <div class="container">
+        <h1>Attendee Event Page</h1>
+        
+        <div class="event-details">
+            <h2><%= event.title %></h2>
+            <p><strong>Date:</strong> <%= new Date(event.event_date).toLocaleDateString() %></p>
+            <p><strong>Description:</strong> <%= event.description %></p>
+            
+            <div class="ticket-info">
+                <h3>Ticket Information</h3>
+                <% if (event.full_price_tickets > 0) { %>
+                    <p><strong>Full Price Tickets:</strong> $<%= event.full_price_cost %> each (<%= event.full_remaining %> remaining)</p>
+                <% } %>
+                <% if (event.concession_tickets > 0) { %>
+                    <p><strong>Concession Tickets:</strong> $<%= event.concession_cost %> each (<%= event.concession_remaining %> remaining)</p>
+                <% } %>
+            </div>
+        </div>
+        
+        <form action="/attendee/book/<%= event.event_id %>" method="post" class="booking-form">
+            <div class="form-group">
+                <label for="attendee_name">Your Name:</label>
+                <input type="text" id="attendee_name" name="attendee_name" required>
+            </div>
+            
+            <% if (event.full_price_tickets > 0 && event.full_remaining > 0) { %>
+                <div class="form-group">
+                    <label for="full_price_tickets">Full Price Tickets ($<%= event.full_price_cost %> each):</label>
+                    <select id="full_price_tickets" name="full_price_tickets">
+                        <% for (let i = 0; i <= event.full_remaining; i++) { %>
+                            <option value="<%= i %>"><%= i %></option>
+                        <% } %>
+                    </select>
+                </div>
+            <% } %>
+            
+            <% if (event.concession_tickets > 0 && event.concession_remaining > 0) { %>
+                <div class="form-group">
+                    <label for="concession_tickets">Concession Tickets ($<%= event.concession_cost %> each):</label>
+                    <select id="concession_tickets" name="concession_tickets">
+                        <% for (let i = 0; i <= event.concession_remaining; i++) { %>
+                            <option value="<%= i %>"><%= i %></option>
+                        <% } %>
+                    </select>
+                </div>
+            <% } %>
+            
+            <div class="form-actions">
+                <button type="submit" class="button primary">Book Tickets</button>
+                <a href="/attendee" class="button">Back to Attendee Home</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

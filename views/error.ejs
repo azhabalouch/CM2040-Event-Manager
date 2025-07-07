@@ -1,0 +1,34 @@
+<!-- EJS TEMPLATES WERE WRITTEN WITHOUT ASSISTANCE -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Event Manager</title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+    <div class="container">
+        <div class="error-page">
+            <h1 class="error-code"><%= statusCode %></h1>
+            <h2 class="error-title"><%= title %></h2>
+            <p class="error-message"><%= message %></p>
+            
+            <% if (showBackButton) { %>
+                <div class="error-actions">
+                    <button onclick="history.back()" class="button">Go Back</button>
+                    <a href="/" class="button">Home Page</a>
+                </div>
+            <% } %>
+            
+            <% if (typeof error !== 'undefined' && error.stack) { %>
+                <details class="error-details">
+                    <summary>Error Details (Development)</summary>
+                    <pre><%= error.stack %></pre>
+                </details>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>

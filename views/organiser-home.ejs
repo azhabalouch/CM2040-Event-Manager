@@ -1,0 +1,104 @@
+<!-- EJS TEMPLATES WERE WRITTEN WITHOUT ASSISTANCE -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <title>Organiser Home - <%= settings.site_name %></title>
+</head>
+<body>
+    <div class="container">
+        <div class="header-section">
+            <h1>Organiser Home Page</h1>
+            <div class="auth-section">
+                <span class="auth-status">✓ Authenticated</span>
+                <form action="/organiser/logout" method="post" style="display: inline;">
+                    <button type="submit" class="button small danger">Logout</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="site-info">
+            <h2><%= settings.site_name %></h2>
+            <p><%= settings.site_description %></p>
+            <a href="/organiser/settings" class="button">Site Settings</a>
+            <a href="/organiser/bookings" class="button">View All Bookings</a>
+        </div>
+        
+        <div class="actions">
+            <form action="/organiser/create-event" method="post" style="display: inline;">
+                <button type="submit" class="button primary">Create New Event</button>
+            </form>
+        </div>
+        
+        <div class="events-section">
+            <h3>Published Events</h3>
+            <% if (publishedEvents.length === 0) { %>
+                <p>No published events yet.</p>
+            <% } else { %>
+                <div class="events-list">
+                    <% publishedEvents.forEach(event => { %>
+                        <div class="event-card">
+                            <h4><%= event.title %></h4>
+                            <p><strong>Date:</strong> <%= event.event_date %></p>
+                            <div class="ticket-availability">
+                                <p><strong>Tickets Sold:</strong> 
+                                    Full: <%= event.full_sold || 0 %>/<%= event.full_price_tickets %>, 
+                                    Concession: <%= event.concession_sold || 0 %>/<%= event.concession_tickets %>
+                                </p>
+                            </div>
+                            <p><strong>Created:</strong> <%= event.created_date %></p>
+                            <p><strong>Published:</strong> <%= event.published_date %></p>
+                            <p><strong>Full Price Tickets:</strong> <%= event.full_price_tickets %> @ $<%= event.full_price_cost %></p>
+                            <p><strong>Concession Tickets:</strong> <%= event.concession_tickets %> @ $<%= event.concession_cost %></p>
+                            
+                            <div class="event-actions">
+                                <a href="/attendee/event/<%= event.event_id %>" target="_blank" class="button small">Share Link</a>
+                                <form action="/organiser/delete-event/<%= event.event_id %>" method="post" style="display: inline;">
+                                    <button type="submit" class="button small danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+        </div>
+        
+        <div class="events-section">
+            <h3>Draft Events</h3>
+            <% if (draftEvents.length === 0) { %>
+                <p>No draft events.</p>
+            <% } else { %>
+                <div class="events-list">
+                    <% draftEvents.forEach(event => { %>
+                        <div class="event-card draft">
+                            <h4><%= event.title %></h4>
+                            <p><strong>Date:</strong> <%= event.event_date || 'Not set' %></p>
+                            <p><strong>Created:</strong> <%= event.created_date %></p>
+                            <p><strong>Last Modified:</strong> <%= event.last_modified %></p>
+                            <p><strong>Full Price Tickets:</strong> <%= event.full_price_tickets %> @ $<%= event.full_price_cost %></p>
+                            <p><strong>Concession Tickets:</strong> <%= event.concession_tickets %> @ $<%= event.concession_cost %></p>
+                            
+                            <div class="event-actions">
+                                <a href="/organiser/edit-event/<%= event.event_id %>" class="button small">Edit</a>
+                                <form action="/organiser/publish-event/<%= event.event_id %>" method="post" style="display: inline;">
+                                    <button type="submit" class="button small success">Publish</button>
+                                </form>
+                                <form action="/organiser/delete-event/<%= event.event_id %>" method="post" style="display: inline;">
+                                    <button type="submit" class="button small danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+        </div>
+        
+        <div class="navigation">
+            <a href="/" class="button">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>
